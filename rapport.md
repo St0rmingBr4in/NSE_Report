@@ -23,3 +23,23 @@ Command queueing is the amount of data a drive can handle at one time. AHCI can
 handle 1 queue with a maximum of 32 commands, by comparison NVMe allows up to
 64K queues with a maximum of 64K commands.
 
+
+Passthrough using SR-IOV
+======
+
+NVMe passthrough can be achieved using SR-IOV. SR-IOV (single root input/output
+virtualization) is an extension of the PCIe specification. It allows a PCIe
+device to expose its resources through PCIe hardware functions.
+
+ - There is a PCIe Physical Function (PF), which is the primary function of the
+ device and also discloses the device's SR-IOV capabilities.
+
+ - There are also one or more PCIe Virtual Functions (VFs), which shares some
+ physical resources of the device. Theses are what interest us in the context
+ of NVMe passthrough. Indeed, thanks to these PCIe Virtual Functions, it is
+ possible to reduce overhead by giving these to the guest.
+
+Passthrough without SR-IOV
+======
+
+
