@@ -1,19 +1,15 @@
-PDFLATEX = pdflatex -shell-escape -interaction=nonstopmode -file-line-error
-PDFLATEX = rubber -d
+FILES		= rapport.md
 
-VIEWER    = zathura
-DOC   ?= main
+LANG		= english
+TITLE		= "NSE Report - NVME - GISTRE 2019"
+SUBTITLE	= ""
+AUTHOR		= "Julien DOCHE - Nicolas POITOUX"
+DATE		= "2018"
+PROMO		= 2019
 
-PDF   = $(DOC).pdf
-TEX   = $(DOC).tex
+DIR_TEMPLATE	= .
+TEMPLATE	= template
+DOC		= nse_report
+TYPE		= latex
 
-all: $(PDF)
-
-%.pdf: %.tex
-	$(PDFLATEX) $<
-
-view: $(PDF)
-	$(VIEWER) $<
-
-clean:
-	$(RM) *.log *.aux *.pdf
+include build.mk
