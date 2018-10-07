@@ -49,7 +49,18 @@ There are two types of queues:
  - The Completion  Queues  (CQ) are circular buffers used by the controller to  post  status  for  completed 
 commands. There can be multiple Submission Queues associated with a Completion
 Queue.
-fixed
+
+Admin  Submission  and  Admin Completion  Queue  exist  in order to manage and control the device. For instance,  for the  creation and deletion of Submission and Completion Queues and aborting commands. Only admin commands (That are part of the Admin Command Set) are to be sent to the Admin Submission  Queue. 
+
+\vspace{3mm}
+
+The NVMe queues follow a Producer/Consumer model:
+
+ - The host acts as the producer of commands and updates the submission queue tail
+ pointer, it also acts as the consumer of completions and updates the completion queue head pointer
+
+ - The controller acts as the consumer of commands and update the submission queue head
+ pointer, it also acts as the producer of completions and updates the completion queue tail pointer
 
 \newpage
 
