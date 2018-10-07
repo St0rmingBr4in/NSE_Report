@@ -29,7 +29,8 @@ Passthrough using SR-IOV
 
 NVMe passthrough can be achieved using SR-IOV. SR-IOV (single root input/output
 virtualization) is an extension of the PCIe specification. It allows a PCIe
-device to expose its resources through PCIe hardware functions.
+device to expose its resources through PCIe hardware functions. It allows also
+different virtual machines to share a single PCIe hardware interface.
 
  - There is a PCIe Physical Function (PF), which is the primary function of the
  device and also discloses the device's SR-IOV capabilities.
@@ -42,4 +43,9 @@ device to expose its resources through PCIe hardware functions.
 Passthrough without SR-IOV
 ======
 
+In the version 1.3 of NVMe specification released Q2 of 2017, some
+virtualization features where added.
+
+ - Direct Assignment
+  IMAGE slide 13
 
