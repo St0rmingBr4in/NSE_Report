@@ -5,12 +5,20 @@ NVMe is the new SCSI. Why is it here, how it works ? How can we do NVMe
 passthrough without SR-IOV ?
 
 NVMe stands for NVM Express (NVM stands for non-volatile memory). NVMe aims to
-address the needs of Enterprise and Consumers by being scalable.
-NVMe is designed from the ground up to take advantage of flash storage
-properties unlike SCSI and buses like SATA or SAS.
-These old buses where designed with mechanical hard drives in mind, thus, while
-suitable for use along with mechanical hard drives, they present some major
-limitations when used along with flash storage.
+address the needs of Enterprise and Consumers by being scalable and flexible.
+It is designed from the ground up to take advantage of flash storage
+properties unlike the SCSI or AHCI protocols.
+
+Historically, for block devices we had two main choices of interfaces and
+protocols:
+
+ - SATA interface with AHCI/ATA
+ - SAS (Serial Attached SCSI) with SCSI
+
+These old buses along with the protocols they are associated to were designed
+with mechanical hard drives in mind, thus, while suitable for use along with
+mechanical hard drives, they present some major limitations when used along
+with flash storage.
 
 For example SATA has those limitations:
 
@@ -22,8 +30,8 @@ For example SATA has those limitations:
 Flash storage used in SSD are now capable of speeds exceeding 600 MB/s and
 capable of accessing lots of data at once. NVMe takes advantage of those
 capabilities and enables greater throughput and less latency by utilizing the
-pcie bus. It parallelize instructions to a greater extend than the SATA and SAS
-buses do.
+PCIe buses. It parallelize instructions to a greater extend than the SATA and SAS
+buses did.
 
 \newpage
 
@@ -38,7 +46,14 @@ An I/O Command Set (called NVM Command Set) is used with an I/O queue pair.
 Each I/O queue pair is made of a submission queue and a completion queue.
 
 The host software creates queues, the number of queues created is dependant of
-the anticipated workload and of the system configuration.
+the anticipated workload and of the system configuration. For example it is
+possible to associate a queue per cpu core in order eliminate the need for
+synchronization when submitting commands.
+
+There are two types of commands:
+
+ - Admin Commands
+ - I/O Commands (called NVM Commands)
 
 There are two types of queues:
 
@@ -49,6 +64,8 @@ There are two types of queues:
  - The Completion  Queues  (CQ) are circular buffers used by the controller to  post  status  for  completed 
 commands. There can be multiple Submission Queues associated with a Completion
 Queue.
+
+\newpage
 
 Admin  Submission  and  Admin Completion  Queue  exist  in order to manage and control the device. For instance,  for the  creation and deletion of Submission and Completion Queues and aborting commands. Only admin commands (That are part of the Admin Command Set) are to be sent to the Admin Submission  Queue. 
 
@@ -61,6 +78,19 @@ The NVMe queues follow a Producer/Consumer model:
 
  - The controller acts as the consumer of commands and update the submission queue head
  pointer, it also acts as the producer of completions and updates the completion queue tail pointer
+
+![Processing of an NVMe I/O Command](NVMe_queues.png)
+
+The processing of an NVMe I/O Command takes place as follows:
+
+ 1. The host inserts a new command and updates the submission queue tail pointer
+ 2. The device is notified of the change via the Submission Queue hardware doorbell register
+ 3. The controller consumes the command and update the submission queue head pointer
+ 4. The command is processed
+ 5. A completion entry is added to the completion queue
+ 6. The controller generates an interrupt
+ 7. The host consumes the completion entry
+ 8. The device is notified of the change via the Completion Queue hardware doorbell register
 
 \newpage
 
