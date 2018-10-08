@@ -1,8 +1,8 @@
-What is NVMe ?
-=====
-
 NVMe is the new SCSI. Why is it here, how it works ? How can we do NVMe
 passthrough without SR-IOV ?
+
+What is NVMe ?
+=====
 
 NVMe stands for NVM Express (NVM stands for non-volatile memory). NVMe aims to
 address the needs of Enterprise and Consumers by being scalable and flexible.
@@ -104,7 +104,7 @@ Passthrough using SR-IOV
 ======
 
 NVMe passthrough can be achieved using SR-IOV. SR-IOV (single root input/output
-virtualization) is an extension of the PCIe specification. It allows a PCIe
+virtualisation) is an extension of the PCIe specification. It allows a PCIe
 device to expose its resources through PCIe hardware functions. It allows also
 different virtual machines to share a single PCIe hardware interface.
 
@@ -114,14 +114,14 @@ different virtual machines to share a single PCIe hardware interface.
  - There are also one or more PCIe Virtual Functions (VFs), which shares some
  physical resources of the device. Theses are what interest us in the context
  of NVMe passthrough. Indeed, thanks to these PCIe Virtual Functions, it is
- possible to reduce the overhead associated with virtualization by giving
+ possible to reduce the overhead associated with virtualisation by giving
  access to these to the guest.
 
 In the version 1.3 of the NVMe specification released Q2 of 2017, some
-virtualization features where added.
+virtualisation features where added.
 
-NVMe has now a way to map virtualized NVMe controllers to different physical
-and virtual functions and intelligently provision ressources between virtual
+NVMe has now a way to map virtualised NVMe controllers to different physical
+and virtual functions and intelligently provision resources between virtual
 functions.
   
 \newpage
